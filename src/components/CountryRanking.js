@@ -110,6 +110,7 @@ function CountryRanking() {
           >
             Rank Based on Total Recovered
           </button>
+          <br />
           <section>
             {table && (
               <table id="rankingTable">

@@ -7,8 +7,8 @@ function GlobalStatistics() {
 
   const [errormsg, setErrorMsg] = useState(null);
 
-  const currentDate = new Date().toLocaleString();
-  currentDate.toString();
+  const todayDate = new Date();
+  const currentDate = todayDate.toString();
 
   useEffect(() => {
     axios
@@ -54,11 +54,11 @@ function GlobalStatistics() {
                   </p>
                 </div>
               </div>
-              Globally, as of {currentDate}, there have been
+              Globally, as of {currentDate}, there have been{" "}
               <span className="text-primary font-weight-bold">
-                {globalStats.TotalConfirmed} confirmed cases
+                {globalStats.TotalConfirmed} confirmed cases{" "}
               </span>
-              of COVID-19, including
+              of COVID-19, including{" "}
               <span className="text-danger font-weight-bold">
                 {globalStats.TotalDeaths} deaths
               </span>
