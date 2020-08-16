@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Select from "react-select";
 import axios from "axios";
 import "./css/styles.css";
 
@@ -7,53 +8,55 @@ function CountryRanking() {
 
   const [errormsg, setErrorMsg] = useState(null);
 
-  const sortConfirmedCases = async () => {
-    const response = await axios
-      .get(`https://api.covid19api.com/summary`)
-      .catch((e) => setErrorMsg("Something went wrong"));
+  const [rankType, setRankType] = useState("");
 
-    if (response.data.length === 0) {
-      setErrorMsg("Something went wrong!!!!");
-      setTable("");
-    } else {
-      setTable(
-        response.data.Countries.sort(
-          (a, b) => a.TotalConfirmed - b.TotalConfirmed
-        )
-      );
-      setErrorMsg("");
-    }
+  const options = [
+    { value: "TotalConfirmed", label: "Total Confirmed" },
+    { value: "TotalDeaths", label: "Total Deaths" },
+    { value: "TotalRecovered", label: "Total Recovered" },
+  ];
+
+  const handleChange = (e) => {
+    console.log(e.value);
+    setRankType(e.value);
+    // console.log(e.value);
   };
 
-  const sortRecoveredCases = async () => {
+  const sortRanking = async () => {
     const response = await axios
       .get(`https://api.covid19api.com/summary`)
       .catch((e) => setErrorMsg("Something went wrong"));
-    if (response.data.length === 0) {
-      setErrorMsg("Something went wrong!!!!");
-      setTable("");
-    } else {
-      setTable(
-        response.data.Countries.sort(
-          (a, b) => a.TotalRecovered - b.TotalRecovered
-        )
-      );
-      setErrorMsg("");
-    }
-  };
 
-  const sortDeathCases = async () => {
-    const response = await axios
-      .get(`https://api.covid19api.com/summary`)
-      .catch((e) => setErrorMsg("Something went wrong"));
     if (response.data.length === 0) {
       setErrorMsg("Something went wrong!!!!");
       setTable("");
     } else {
-      setTable(
-        response.data.Countries.sort((a, b) => a.TotalDeaths - b.TotalDeaths)
-      );
-      setErrorMsg("");
+      if (rankType === "TotalConfirmed") {
+        setTable(
+          response.data.Countries.sort(
+            (a, b) => a.TotalConfirmed - b.TotalConfirmed
+          )
+        );
+        setErrorMsg("");
+      } else {
+        if (rankType === "TotalDeaths") {
+          setTable(
+            response.data.Countries.sort(
+              (a, b) => a.TotalDeaths - b.TotalDeaths
+            )
+          );
+          setErrorMsg("");
+        } else {
+          if (rankType === "TotalRecovered") {
+            setTable(
+              response.data.Countries.sort(
+                (a, b) => a.TotalRecovered - b.TotalRecovered
+              )
+            );
+            setErrorMsg("");
+          }
+        }
+      }
     }
   };
 
@@ -93,46 +96,36 @@ function CountryRanking() {
         <h5 className="card-header"> Ranking of Countries for Corona Virus</h5>
 
         <div className="card-body">
-          <div className="text-center"></div>
-          <button
-            type="button"
-            className="btn btn-success mr-5"
-            onClick={() => sortConfirmedCases()}
-          >
-            Rank Based on Confirmed Cases
-          </button>
-          <button
-            type="button"
-            className="btn btn-danger mr-5"
-            onClick={() => sortDeathCases()}
-          >
-            Rank Based on Total Deaths
-          </button>
-          <button
-            type="button"
-            className="btn btn-info"
-            onClick={() => sortRecoveredCases()}
-          >
-            Rank Based on Total Recovered
-          </button>
-          <section>
-            <br /> <br />
-               {table && 
-                 ( <div id="tableDisplay">
-              <table id="rankingTable">
-                <tbody>
-                  <tr>{renderTableHeader()}</tr>
-                  {renderTableData()}
-                </tbody>
-              </table>
-              </div>
-            )}
-            {errormsg && (
-              <div className="row text-center">
-                <h3 className="text-danger ">{errormsg}</h3>
-              </div>
-            )}
-          </section>
+          <div className="text-center">
+            <Select options={options} onChange={handleChange} />
+            <br />
+            <button
+              type="button"
+              className="btn btn-success mr-5"
+              onClick={() => sortRanking()}
+            >
+              Search
+            </button>
+
+            <section>
+              <br /> <br />
+              {table && (
+                <div id="tableDisplay">
+                  <table id="rankingTable">
+                    <tbody>
+                      <tr>{renderTableHeader()}</tr>
+                      {renderTableData()}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {errormsg && (
+                <div className="row text-center">
+                  <h3 className="text-danger ">{errormsg}</h3>
+                </div>
+              )}
+            </section>
+          </div>
         </div>
       </div>
     </div>
