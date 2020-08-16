@@ -69,14 +69,19 @@ function CountryRanking() {
   };
 
   const renderTableData = () => {
-    return table.map((post) => {
-      const { Slug, TotalDeaths, TotalConfirmed, TotalRecovered } = post;
+    return table.map((countryRankingData) => {
+      const {
+        Slug,
+        TotalDeaths,
+        TotalConfirmed,
+        TotalRecovered,
+      } = countryRankingData;
       return (
         <tr key={TotalConfirmed}>
           <td>{Slug.toUpperCase()}</td>
-          <td>{TotalConfirmed}</td>
-          <td>{TotalDeaths}</td>
-          <td>{TotalRecovered}</td>
+          <td className="text-success">{TotalConfirmed}</td>
+          <td className="text-danger">{TotalDeaths}</td>
+          <td className="text-info">{TotalRecovered}</td>
         </tr>
       );
     });
@@ -110,8 +115,8 @@ function CountryRanking() {
           >
             Rank Based on Total Recovered
           </button>
-          <br />
           <section>
+            <br /> <br />
             {table && (
               <table id="rankingTable">
                 <tbody>

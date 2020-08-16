@@ -54,6 +54,7 @@ function GlobalStatistics() {
                   </p>
                 </div>
               </div>
+              <br/>
               Globally, as of {currentDate}, there have been{" "}
               <span className="text-primary font-weight-bold">
                 {globalStats.TotalConfirmed} confirmed cases{" "}
