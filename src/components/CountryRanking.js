@@ -117,13 +117,15 @@ function CountryRanking() {
           </button>
           <section>
             <br /> <br />
-            {table && (
+               {table && 
+                 ( <div id="tableDisplay">
               <table id="rankingTable">
                 <tbody>
                   <tr>{renderTableHeader()}</tr>
                   {renderTableData()}
                 </tbody>
               </table>
+              </div>
             )}
             {errormsg && (
               <div className="row text-center">

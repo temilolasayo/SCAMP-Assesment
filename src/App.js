@@ -7,9 +7,11 @@ import CountryStatistics from "./components/CountryStatistics";
 function App() {
   return (
     <div className="App">
+    <div className="container">
       <GlobalStatistics />
       <CountryStatistics />
       <CountryRanking />
+      </div>
     </div>
   );
 }
